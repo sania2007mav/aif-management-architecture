@@ -1,0 +1,18 @@
+{
+  "name": "АиФ_ОсновнаяРоль",
+  "synonym": "Основная роль АиФ МСФО",
+  "setForNewObjects": true,
+  "setForAttributesByDefault": true,
+  "objects": [
+    "Catalog.АиФ_СтатьиМСФО: @edit",
+    "Catalog.АиФ_ПериметрГруппы: @edit",
+    "Catalog.АиФ_КартаСчетовМСФО: @edit",
+    "Catalog.АиФ_ПравилаВГО: @edit",
+    "Document.АиФ_КорректировкаМСФО: @edit",
+    "InformationRegister.АиФ_ДвиженияМСФО: @edit",
+    "DataProcessor.АиФ_ПомощникКонсолидации: @view",
+    "Subsystem.АиФ_МСФО: @view",
+    "Catalog.Организации: @view",
+    "Catalog.Контрагенты: @view"
+  ]
+}

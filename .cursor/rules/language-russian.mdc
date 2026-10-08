@@ -1,0 +1,8 @@
+---
+description: Always respond in Russian language
+alwaysApply: true
+---
+
+# Язык общения
+
+Всегда отвечай на русском языке, независимо от языка вопроса пользователя.

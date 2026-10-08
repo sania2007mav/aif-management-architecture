@@ -1,0 +1,15 @@
+{
+  "name": "АиФ_МСФО",
+  "synonym": "АиФ МСФО и консолидация",
+  "includeInCommandInterface": true,
+  "explanation": "Управленческий слой МСФО: корректировки, ВГО, консолидация",
+  "content": [
+    "Catalog.АиФ_СтатьиМСФО",
+    "Catalog.АиФ_ПериметрГруппы",
+    "Catalog.АиФ_КартаСчетовМСФО",
+    "Catalog.АиФ_ПравилаВГО",
+    "Document.АиФ_КорректировкаМСФО",
+    "InformationRegister.АиФ_ДвиженияМСФО",
+    "DataProcessor.АиФ_ПомощникКонсолидации"
+  ]
+}

@@ -1,0 +1,13 @@
+[
+  {"op": "add-rights", "value": "Catalog.АиФ_СтатьиМСФО: @edit"},
+  {"op": "add-rights", "value": "Catalog.АиФ_ПериметрГруппы: @edit"},
+  {"op": "add-rights", "value": "Catalog.АиФ_КартаСчетовМСФО: @edit"},
+  {"op": "add-rights", "value": "Catalog.АиФ_ПравилаВГО: @edit"},
+  {"op": "add-rights", "value": "Document.АиФ_КорректировкаМСФО: @edit"},
+  {"op": "add-rights", "value": "InformationRegister.АиФ_ДвиженияМСФО: @edit"},
+  {"op": "add-rights", "value": "DataProcessor.АиФ_ПомощникКонсолидации: @use"},
+  {"op": "add-rights", "value": "Enum.АиФ_ВидыОперацийМСФО: @view"},
+  {"op": "add-rights", "value": "Subsystem.АиФ_МСФО: @view"},
+  {"op": "add-rights", "value": "Catalog.Организации: @view"},
+  {"op": "add-rights", "value": "Catalog.Контрагенты: @view"}
+]

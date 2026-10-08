@@ -1,4 +1,11 @@
 *.docx
+*.ogg
 _protocol_text.txt
 .DS_Store
 Thumbs.db
+
+.1c-devbase.bat
+.v8-project.json
+src/cf/
+src/cf_base/
+

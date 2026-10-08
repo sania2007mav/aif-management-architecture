@@ -1,0 +1,136 @@
+[
+  {
+    "type": "Enum",
+    "name": "АиФ_ВидыОперацийМСФО",
+    "synonym": "Виды операций МСФО (АиФ)",
+    "values": [
+      "Переклассификация",
+      "ПереносМеждуЮЛ",
+      "ИсключениеВГО",
+      "Прочее"
+    ]
+  },
+  {
+    "type": "Catalog",
+    "name": "АиФ_СтатьиМСФО",
+    "synonym": "Статьи МСФО (АиФ)",
+    "descriptionLength": 150,
+    "codeLength": 20,
+    "attributes": [
+      "КодМСФО: String(20)",
+      "ЭтоРасходПериода: Boolean",
+      "Комментарий: String(200) | multiline"
+    ]
+  },
+  {
+    "type": "Catalog",
+    "name": "АиФ_ПериметрГруппы",
+    "synonym": "Периметр группы (АиФ)",
+    "descriptionLength": 150,
+    "codeLength": 9,
+    "attributes": [
+      "Организация: CatalogRef.Организации | req",
+      "ВходитВКонсолидацию: Boolean",
+      "ИсключатьВГО: Boolean",
+      "Порядок: Number(5,0)",
+      "Комментарий: String(200) | multiline"
+    ]
+  },
+  {
+    "type": "Catalog",
+    "name": "АиФ_КартаСчетовМСФО",
+    "synonym": "Карта счетов МСФО (АиФ)",
+    "descriptionLength": 150,
+    "codeLength": 9,
+    "attributes": [
+      "КодСчетаБП: String(20) | req",
+      "СтатьяМСФО: CatalogRef.АиФ_СтатьиМСФО",
+      "ВидОперации: EnumRef.АиФ_ВидыОперацийМСФО",
+      "ПереклассифицироватьВРасходПериода: Boolean",
+      "Активно: Boolean",
+      "Комментарий: String(200) | multiline"
+    ]
+  },
+  {
+    "type": "Catalog",
+    "name": "АиФ_ПравилаВГО",
+    "synonym": "Правила исключения ВГО (АиФ)",
+    "descriptionLength": 150,
+    "codeLength": 9,
+    "attributes": [
+      "ОрганизацияПродавец: CatalogRef.Организации | req",
+      "ОрганизацияПокупатель: CatalogRef.Организации | req",
+      "КонтрагентПродавец: CatalogRef.Контрагенты",
+      "КонтрагентПокупатель: CatalogRef.Контрагенты",
+      "КодСчетаВыручки: String(20)",
+      "КодСчетаЗатрат: String(20)",
+      "Активно: Boolean",
+      "Комментарий: String(200) | multiline"
+    ]
+  },
+  {
+    "type": "InformationRegister",
+    "name": "АиФ_ДвиженияМСФО",
+    "synonym": "Движения МСФО (АиФ)",
+    "writeMode": "RecorderSubordinate",
+    "periodicity": "RecorderPosition",
+    "dimensions": [
+      "Организация: CatalogRef.Организации | master, mainFilter, denyIncomplete",
+      "СтатьяМСФО: CatalogRef.АиФ_СтатьиМСФО | mainFilter",
+      "ВидОперации: EnumRef.АиФ_ВидыОперацийМСФО | mainFilter",
+      "КодСчетаБП: String(20)",
+      "Контрагент: CatalogRef.Контрагенты"
+    ],
+    "resources": [
+      "Сумма: Number(15,2)",
+      "СуммаВГО: Number(15,2)"
+    ],
+    "attributes": [
+      "Содержание: String(200)",
+      "ОбъектАналитики: String(100)"
+    ]
+  },
+  {
+    "type": "Document",
+    "name": "АиФ_КорректировкаМСФО",
+    "synonym": "Корректировка МСФО (АиФ)",
+    "posting": "Allow",
+    "registerRecords": [
+      "InformationRegister.АиФ_ДвиженияМСФО"
+    ],
+    "attributes": [
+      "Организация: CatalogRef.Организации | req",
+      "ВидОперации: EnumRef.АиФ_ВидыОперацийМСФО | req",
+      "ПериодОтчёта: Date",
+      "Комментарий: String(200) | multiline"
+    ],
+    "tabularSections": {
+      "Строки": [
+        "КодСчетаБП: String(20)",
+        "СтатьяМСФО: CatalogRef.АиФ_СтатьиМСФО",
+        "Контрагент: CatalogRef.Контрагенты",
+        "Сумма: Number(15,2)",
+        "СуммаВГО: Number(15,2)",
+        "ОбъектАналитики: String(100)",
+        "Содержание: String(200)"
+      ]
+    }
+  },
+  {
+    "type": "CommonModule",
+    "name": "АиФ_МСФОСервер",
+    "synonym": "МСФО сервер (АиФ)",
+    "context": "server",
+    "externalConnection": true
+  },
+  {
+    "type": "DataProcessor",
+    "name": "АиФ_ПомощникКонсолидации",
+    "synonym": "Помощник консолидации МСФО (АиФ)",
+    "attributes": [
+      "ПериодС: Date",
+      "ПериодПо: Date",
+      "ТолькоАктивныеПравила: Boolean"
+    ]
+  }
+]
