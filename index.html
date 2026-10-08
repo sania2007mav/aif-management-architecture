@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>АиФ — Управленческий учёт поверх 1С:БП</title>
+  <meta name="description" content="Конструкционная схема: типовая 1С:Бухгалтерия 8.3 и модуль управленческого учёта / консолидации для группы из двух компаний." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef2f4;
+      --bg-deep: #e2e8ec;
+      --ink: #152028;
+      --muted: #5a6772;
+      --line: #c5d0d8;
+      --surface: #f7fafb;
+      --source: #d9e4ea;
+      --module: #0f4c5c;
+      --module-ink: #eef8fa;
+      --out: #b33b3b;
+      --out-ink: #fff6f6;
+      --max: 920px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, #f5f8fa 0%, transparent 28%),
+        repeating-linear-gradient(
+          -12deg,
+          transparent,
+          transparent 11px,
+          rgba(15, 76, 92, 0.035) 11px,
+          rgba(15, 76, 92, 0.035) 12px
+        ),
+        var(--bg);
+      font-family: "IBM Plex Sans", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    .wrap {
+      width: min(100% - 2rem, var(--max));
+      margin: 0 auto;
+      padding: 2.5rem 0 4rem;
+    }
+
+    header.hero {
+      padding: 1.5rem 0 2rem;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 2rem;
+      animation: rise 0.7s ease both;
+    }
+
+    .brand {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin: 0 0 0.75rem;
+    }
+
+    .lede {
+      max-width: 38rem;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin: 0;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.75rem 0 1rem;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--ink);
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .tab[aria-selected="true"] {
+      background: var(--module);
+      border-color: var(--module);
+      color: var(--module-ink);
+    }
+
+    section {
+      margin: 2rem 0;
+      animation: rise 0.6s ease both;
+    }
+    section:nth-of-type(2) { animation-delay: 0.08s; }
+    section:nth-of-type(3) { animation-delay: 0.14s; }
+    section:nth-of-type(4) { animation-delay: 0.2s; }
+
+    h2 {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.75rem;
+    }
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .note {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-left: 3px solid var(--module);
+      background: var(--bg-deep);
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .note.warn { border-left-color: var(--out); }
+
+    .diagram-wrap {
+      overflow-x: auto;
+      padding: 0.5rem 0;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .swatch {
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .swatch.source { background: var(--source); border: 1px solid var(--line); }
+    .swatch.module { background: var(--module); }
+    .swatch.out { background: var(--out); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 720px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    ul.clean {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    ul.clean li {
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.92rem;
+    }
+    ul.clean li:last-child { border-bottom: none; }
+    ul.clean strong { display: block; }
+    ul.clean em {
+      font-style: normal;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.6rem;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.35); }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 720px) {
+      .compare { grid-template-columns: 1fr; }
+    }
+    .compare article {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.1rem 1.2rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .compare article.preferred {
+      border-color: var(--module);
+      box-shadow: inset 3px 0 0 var(--module);
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--module);
+      margin-bottom: 0.35rem;
+    }
+    .compare p { margin: 0.35rem 0; font-size: 0.9rem; color: var(--muted); }
+    .compare p.lead { color: var(--ink); font-weight: 500; }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .flow-node {
+      transition: transform 0.25s ease;
+    }
+    .flow-node:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <p class="brand">АиФ</p>
+      <p class="lede">
+        Конструкционная схема автоматизации управленческого учёта и консолидации:
+        типовая «1С:Бухгалтерия 8.3» остаётся контуром БУ, поверх неё — модуль
+        корректировок, исключения ВГО и отчётности по двум юрлицам.
+      </p>
+    </header>
+
+    <section>
+      <h2>Вариант размещения</h2>
+      <div class="tabs" role="tablist" aria-label="Вариант архитектуры">
+        <button class="tab" role="tab" id="tab-a" aria-selected="true" aria-controls="panel-flow">A · Модуль в 1С</button>
+        <button class="tab" role="tab" id="tab-b" aria-selected="false" aria-controls="panel-flow">B · Отдельное решение</button>
+      </div>
+
+      <div class="panel" id="panel-flow">
+        <div class="legend">
+          <span><i class="swatch source"></i> Источник: БП без изменений</span>
+          <span><i class="swatch module"></i> Управленческий слой</span>
+          <span><i class="swatch out"></i> Выход: отчётность</span>
+        </div>
+        <div class="diagram-wrap" aria-hidden="false">
+          <svg id="flow" viewBox="0 0 640 520" width="640" height="520" role="img" aria-labelledby="flow-title">
+            <title id="flow-title">Поток данных от двух БП к консолидированной отчётности</title>
+            <defs>
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M0 0 L10 5 L0 10 z" fill="#5a645e" />
+              </marker>
+            </defs>
+            <!-- rank backgrounds -->
+            <rect x="40" y="16" width="560" height="88" rx="10" fill="#d9e4ea" opacity="0.55" />
+            <rect x="40" y="400" width="560" height="88" rx="10" fill="#e2e8ec" opacity="0.85" />
+
+            <!-- nodes -->
+            <g class="flow-node" transform="translate(88,28)">
+              <rect width="168" height="54" rx="8" fill="#d9e4ea" stroke="#c5d0d8" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#152028">1С:БП · ЮЛ-1</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#5a6772">Генподрядчик</text>
+            </g>
+            <g class="flow-node" transform="translate(384,28)">
+              <rect width="168" height="54" rx="8" fill="#d9e4ea" stroke="#c5d0d8" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#152028">1С:БП · ЮЛ-2</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#5a6772">ЖБИ / техника / услуги</text>
+            </g>
+
+            <g class="flow-node" transform="translate(236,128)">
+              <rect width="168" height="54" rx="8" fill="#0f4c5c" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#eef8fa">Слой данных</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#b7d7df">Срез проводок + аналитика</text>
+            </g>
+            <g class="flow-node" transform="translate(236,212)">
+              <rect width="168" height="54" rx="8" fill="#0f4c5c" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#eef8fa">Упр. корректировки</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#b7d7df">Переклас., 8110→период</text>
+            </g>
+            <g class="flow-node" transform="translate(236,296)">
+              <rect width="168" height="54" rx="8" fill="#0f4c5c" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#eef8fa">Исключение ВГО</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#b7d7df">Выручка, аренда, ТРУ</text>
+            </g>
+            <g class="flow-node" transform="translate(236,380)">
+              <rect width="168" height="54" rx="8" fill="#0f4c5c" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#eef8fa">Консолидация</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#b7d7df">Два юрлица → группа</text>
+            </g>
+            <g class="flow-node" transform="translate(236,448)">
+              <rect width="168" height="54" rx="8" fill="#b33b3b" />
+              <text x="84" y="24" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="13" font-weight="600" fill="#fff6f6">Упр. отчётность</text>
+              <text x="84" y="42" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="11" fill="#ffd6d6">P&amp;L, план-факт, объекты</text>
+            </g>
+
+            <!-- edges -->
+            <g stroke="#5a645e" stroke-width="1.5" fill="none" marker-end="url(#arrow)">
+              <path d="M172 82 L288 128" />
+              <path d="M468 82 L352 128" />
+              <path d="M320 182 L320 212" />
+              <path d="M320 266 L320 296" />
+              <path d="M320 350 L320 380" />
+              <path d="M320 434 L320 448" />
+            </g>
+          </svg>
+        </div>
+        <p class="note" id="variant-note">
+          <strong>Вариант A.</strong> Модуль ставится как расширение / подсистема к БП.
+          Пользователь работает в привычном интерфейсе 1С; Excel постепенно уходит
+          из консолидации. Бухгалтерские проводки не переписываются.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Состав модуля и граница с БП</h2>
+      <div class="grid-2">
+        <div class="panel">
+          <h3>В модуле</h3>
+          <ul class="clean">
+            <li><strong>Регистр упр. корректировок</strong><em>Классификация без смены БУ</em></li>
+            <li><strong>Правила ВГО</strong><em>Пары контрагентов / договоров / счетов</em></li>
+            <li><strong>Карта статей</strong><em>БУ → упр. статьи / периоды</em></li>
+            <li><strong>Контур группы</strong><em>ЮЛ-1 + ЮЛ-2, периметр консолидации</em></li>
+            <li><strong>Отчёты / СКД</strong><em>Консолидированный P&amp;L, объекты</em></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h3>Остаётся в типовой БП</h3>
+          <ul class="clean">
+            <li>Первичка и проводки по РСБУ</li>
+            <li>Счета учёта, в т.ч. 8110 и себестоимость</li>
+            <li>Аналитика строительных объектов (как есть)</li>
+            <li>Субподрядные договоры как основа себестоимости</li>
+            <li>Закрытие месяца / аудит без вмешательства модуля</li>
+          </ul>
+          <p class="note">Модуль читает БП и пишет только в свои объекты. Аудиторский контур БУ не ломается.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Требования → блоки схемы</h2>
+      <div class="panel" style="padding:0; overflow:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Требование</th>
+              <th>Где</th>
+              <th>Комментарий</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Загрузка данных из действующей 1С</td>
+              <td>Слой данных</td>
+              <td>Чтение проводок / ОСВ / аналитики объектов</td>
+            </tr>
+            <tr>
+              <td>Переклассификация расходов без смены БУ</td>
+              <td>Упр. корректировки</td>
+              <td>Параллельный регистр, не трогает проводки</td>
+            </tr>
+            <tr>
+              <td>8110 → расходы периода (упр.)</td>
+              <td>Карта статей / правила</td>
+              <td>Правило или ручная корректировка периода</td>
+            </tr>
+            <tr>
+              <td>Перераспределение между ЮЛ / статьями</td>
+              <td>Упр. корректировки</td>
+              <td>Документ «Упр. перенос затрат»</td>
+            </tr>
+            <tr>
+              <td>Исключение ВГО</td>
+              <td>Исключение ВГО</td>
+              <td>Правила по контрагентам группы + ручные исключения</td>
+            </tr>
+            <tr>
+              <td>Консолидированная отчётность по 2 ЮЛ</td>
+              <td>Консолидация + отчёты</td>
+              <td>Периметр группы, элиминации, итоговые формы</td>
+            </tr>
+            <tr>
+              <td>План-факт по объектам</td>
+              <td>Отчёты (этап 2)</td>
+              <td>Прямые затраты уже в БП; план можно подтянуть позже</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>Сравнение вариантов</h2>
+      <div class="compare">
+        <article class="preferred" id="card-a">
+          <div class="badge">Приоритет</div>
+          <h3>A · Модуль / расширение в БП</h3>
+          <p>Плюсы: один контур 1С, быстрее MVP, знакомый UI.</p>
+          <p>Минусы: связанность с обновлениями БП, дисциплина расширения.</p>
+          <p class="lead">Подходит, если организации в одной / связанных базах и команда готова жить в 1С.</p>
+        </article>
+        <article id="card-b">
+          <div class="badge" style="color:var(--muted)">Альтернатива</div>
+          <h3>B · Отдельное решение</h3>
+          <p>Плюсы: жёсткая изоляция от БУ, свобода модели данных.</p>
+          <p>Минусы: интеграция, два контура поддержки, дороже.</p>
+          <p class="lead">Имеет смысл, если базы сильно разведены или нужен независимый продукт.</p>
+        </article>
+      </div>
+      <p class="note warn">
+        <strong>Не берём в v1:</strong> ERP/КА как платформу консолидации и полноценную
+        «строительную» конфигурацию — для группы из двух компаний и текущего объёма
+        прямых затрат это избыточно. Открыты: хранение корректировок, признаки авто-ВГО,
+        косвенные расходы, формы отчётов, оценка трудозатрат.
+      </p>
+    </section>
+
+    <footer>
+      Черновая конструкционная схема по итогам встречи 08.10.2026.
+      Решение о продукте, бюджете и сроках не принято — страница для обсуждения с разработчиками.
+    </footer>
+  </div>
+
+  <script>
+    const tabA = document.getElementById("tab-a");
+    const tabB = document.getElementById("tab-b");
+    const note = document.getElementById("variant-note");
+    const cardA = document.getElementById("card-a");
+    const cardB = document.getElementById("card-b");
+
+    const notes = {
+      a: `<strong>Вариант A.</strong> Модуль ставится как расширение / подсистема к БП.
+          Пользователь работает в привычном интерфейсе 1С; Excel постепенно уходит
+          из консолидации. Бухгалтерские проводки не переписываются.`,
+      b: `<strong>Вариант B.</strong> Те же блоки, но «Слой данных → … → Отчёты» живут
+          вне БП (отдельная база / сервис). В БП только выгрузка оборотов / проводок.
+          Больше контроля границ, выше стоимость интеграции и сопровождения.`
+    };
+
+    function select(which) {
+      const isA = which === "a";
+      tabA.setAttribute("aria-selected", String(isA));
+      tabB.setAttribute("aria-selected", String(!isA));
+      note.innerHTML = notes[which];
+      cardA.classList.toggle("preferred", isA);
+      cardB.classList.toggle("preferred", !isA);
+    }
+
+    tabA.addEventListener("click", () => select("a"));
+    tabB.addEventListener("click", () => select("b"));
+  </script>
+</body>
+</html>
