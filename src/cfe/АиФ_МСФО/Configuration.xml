@@ -76,6 +76,7 @@
 			<Catalog>АиФ_ПравилаВГО</Catalog>
 			<Document>АиФ_КорректировкаМСФО</Document>
 			<Enum>АиФ_ВидыОперацийМСФО</Enum>
+			<Report>АиФ_КонсолидацияМСФО</Report>
 			<DataProcessor>АиФ_ПомощникКонсолидации</DataProcessor>
 			<InformationRegister>АиФ_ДвиженияМСФО</InformationRegister>
 		</ChildObjects>

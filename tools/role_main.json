@@ -11,6 +11,7 @@
     "Document.АиФ_КорректировкаМСФО: @edit",
     "InformationRegister.АиФ_ДвиженияМСФО: @edit",
     "DataProcessor.АиФ_ПомощникКонсолидации: @view",
+    "Report.АиФ_КонсолидацияМСФО: @view",
     "Subsystem.АиФ_МСФО: @view",
     "Catalog.Организации: @view",
     "Catalog.Контрагенты: @view"

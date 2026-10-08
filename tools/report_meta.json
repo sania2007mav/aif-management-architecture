@@ -1,0 +1,10 @@
+[
+  {
+    "type": "Report",
+    "name": "АиФ_КонсолидацияМСФО",
+    "synonym": "Консолидация МСФО (АиФ)",
+    "useStandardCommands": true,
+    "mainDataCompositionSchema": "Report.АиФ_КонсолидацияМСФО.Template.ОсновнаяСхемаКомпоновкиДанных",
+    "explanation": "Консолидированные движения управленческого слоя МСФО"
+  }
+]

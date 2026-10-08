@@ -28,6 +28,7 @@
 				<xr:Item xsi:type="xr:MDObjectRef">Document.АиФ_КорректировкаМСФО</xr:Item>
 				<xr:Item xsi:type="xr:MDObjectRef">InformationRegister.АиФ_ДвиженияМСФО</xr:Item>
 				<xr:Item xsi:type="xr:MDObjectRef">DataProcessor.АиФ_ПомощникКонсолидации</xr:Item>
+				<xr:Item xsi:type="xr:MDObjectRef">Report.АиФ_КонсолидацияМСФО</xr:Item>
 			</Content>
 		</Properties>
 		<ChildObjects/>

@@ -49,8 +49,8 @@
 			<SearchStringModeOnInputByString>Begin</SearchStringModeOnInputByString>
 			<FullTextSearchOnInputByString>DontUse</FullTextSearchOnInputByString>
 			<ChoiceDataGetModeOnInputByString>Directly</ChoiceDataGetModeOnInputByString>
-			<DefaultObjectForm/>
-			<DefaultListForm/>
+			<DefaultObjectForm>Document.АиФ_КорректировкаМСФО.Form.ФормаДокумента</DefaultObjectForm>
+			<DefaultListForm>Document.АиФ_КорректировкаМСФО.Form.ФормаСписка</DefaultListForm>
 			<DefaultChoiceForm/>
 			<AuxiliaryObjectForm/>
 			<AuxiliaryListForm/>
@@ -243,6 +243,8 @@
 					<DataHistory>Use</DataHistory>
 				</Properties>
 			</Attribute>
+			<Form>ФормаДокумента</Form>
+			<Form>ФормаСписка</Form>
 			<TabularSection uuid="b799db6a-62a3-49ab-a4d9-649d2cdeb87b">
 				<InternalInfo>
 					<xr:GeneratedType name="DocumentTabularSection.АиФ_КорректировкаМСФО.Строки" category="TabularSection">
